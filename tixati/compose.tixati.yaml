@@ -6,3 +6,15 @@ services:
       - ../home/Downloads:/root/Downloads
     ports:
       - 6080:6080
+  fs:
+    image: "sigoden/dufs"
+    ports:
+      - "5000:5000"
+    command:
+      - --enable-cors
+      - --allow-symlink
+      - --allow-search
+      - /data
+    volumes:
+      - ../home/Downloads:/data
+    restart: unless-stopped
