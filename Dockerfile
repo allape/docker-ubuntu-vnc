@@ -8,9 +8,12 @@ RUN test -n "$http_proxy" && echo "Acquire::http::Proxy \"$http_proxy\";" || exi
 RUN test -n "$https_proxy" && echo "Acquire::https::Proxy \"$https_proxy\";" || exit 0 >> /etc/apt/apt.conf.d/10proxy.conf
 
 RUN  apt-get update && \
-     apt-get install -y xfce4 xfce4-goodies tigervnc-standalone-server novnc && \
+     apt-get install -y xfce4 xfce4-goodies tigervnc-standalone-server git && \
      rm -rf /var/lib/apt/lists/* && \
      rm -f /etc/apt/apt.conf.d/10proxy.conf
+
+RUN git clone --depth 1 https://github.com/allape/noVNC.git /usr/share/novnc
+#RUN git clone --depth 1 https://github.com/novnc/noVNC.git /usr/share/novnc
 
 COPY vnc_config /root/.vnc/config
 COPY entrypoint.sh /entrypoint.sh
