@@ -14,6 +14,7 @@ services:
       - --enable-cors
       - --allow-symlink
       - --allow-search
+      - --allow-upload
       - /data
     volumes:
       - ../home/Downloads:/data
