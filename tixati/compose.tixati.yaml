@@ -1,21 +1,25 @@
 name: tixati
 services:
   server:
-    image: allape/tixati
-    volumes:
-      - ../home/Downloads:/root/Downloads
+    image: allape/tixati:latest
     ports:
-      - 6080:6080
+      - "6080:6080"
+    volumes:
+      - tixati:/root/Downloads
+    restart: unless-stopped
   fs:
-    image: "sigoden/dufs"
+    image: sigoden/dufs
     ports:
       - "5000:5000"
+    volumes:
+      - tixati:/data
+    restart: unless-stopped
     command:
       - --enable-cors
       - --allow-symlink
       - --allow-search
       - --allow-upload
       - /data
-    volumes:
-      - ../home/Downloads:/data
-    restart: unless-stopped
+
+volumes:
+  tixati:

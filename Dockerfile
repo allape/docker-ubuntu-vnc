@@ -12,18 +12,25 @@ RUN  apt-get update && \
      rm -rf /var/lib/apt/lists/* && \
      rm -f /etc/apt/apt.conf.d/10proxy.conf
 
+RUN git config --global http.proxy $http_proxy && \
+    git config --global https.proxy $https_proxy
+
 RUN git clone --depth 1 https://github.com/allape/noVNC.git /usr/share/novnc
 #RUN git clone --depth 1 https://github.com/novnc/noVNC.git /usr/share/novnc
 
+RUN git config --global --unset http.proxy && \
+    git config --global --unset https.proxy
+
 COPY vnc_config /root/.vnc/config
 COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
 
 RUN echo "$VNC_PASSWORD" > /root/plain_passwd.txt && \
     vncpasswd -f < /root/plain_passwd.txt > /root/.vnc/passwd && \
     rm -f /root/plain_passwd.txt && \
     chmod 600 /root/.vnc/passwd
 
-RUN chmod +x /entrypoint.sh
 ENTRYPOINT /entrypoint.sh
 
 # docker build -t allape/ubuntu-vnc .

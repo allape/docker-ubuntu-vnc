@@ -1,6 +1,6 @@
 FROM allape/ubuntu-vnc
 
-ARG TIXATI_BINNAME="tixati_3.24-1_amd64.deb"
+ARG TIXATI_BINNAME="tixati_3.31-1_amd64.deb"
 
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=America/Los_Angeles
@@ -15,16 +15,14 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     rm -f /etc/apt/apt.conf.d/10proxy.conf
 
-RUN wget "https://download2.tixati.com/download/$TIXATI_BINNAME" && \
-    wget "https://download2.tixati.com/download/$TIXATI_BINNAME.asc" && \
-    wget https://www.tixati.com/tixati.key
+RUN wget "https://download.tixati.com/$TIXATI_BINNAME" && \
+    wget "https://download.tixati.com/$TIXATI_BINNAME.asc" && \
+    wget https://tixati.com/tixati.key
 
 RUN gpg --import tixati.key && \
     gpg --with-fingerprint "$TIXATI_BINNAME.asc"
 
 RUN apt-get install "./$TIXATI_BINNAME"
-
-# /usr/bin/tixati
 
 ENTRYPOINT /entrypoint.sh
 

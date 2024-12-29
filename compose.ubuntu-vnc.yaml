@@ -2,12 +2,6 @@ name: ubuntu-vnc
 services:
   server:
     image: allape/ubuntu-vnc
-#    build:
-#      dockerfile: Dockerfile
-    volumes:
-      - ./entrypoint.sh:/entrypoint.sh
-      - ./home/Downloads:/root/Downloads
-      - ./home/Desktop:/root/Desktop
     ports:
       - 6080:6080
 #      - 5901:5901
