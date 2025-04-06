@@ -6,6 +6,7 @@ services:
       - "6080:6080"
     volumes:
       - tixati:/root/Downloads
+      - config:/root/.config/tixati
     restart: unless-stopped
   fs:
     image: sigoden/dufs
@@ -23,3 +24,4 @@ services:
 
 volumes:
   tixati:
+  config:
